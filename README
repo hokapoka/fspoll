@@ -1,0 +1,30 @@
+
+FSPoll
+======
+
+This is the source code repository for the FSPoll a simple file
+poller written in the Go programming language.
+
+Copyright 2010 The FSPoll Authors. All rights reserved.
+Use of this source code is governed by a BSD-style
+license that can be found in the LICENSE file.
+
+V 0.0.1
+
+Contact 
+-------
+
+If you have any issues please feel free to contact : 
+
+    email - hoka@hokapoka.com
+      web - http://go.hokapoka.com
+     buzz - hokapoka.com@gmail.com 
+  twitter - @hokapokadotcom
+   github - github.com/hokapoka/goauth
+      irc - hokapoka (freenode #go-nuts)
+
+
+============================================================
+
+
+
