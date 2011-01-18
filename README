@@ -11,6 +11,35 @@ license that can be found in the LICENSE file.
 
 V 0.0.1
 
+Install
+-------
+
+  goinstall github.com/hokapoka/fspoll
+
+Example 
+-------
+
+const(
+	fileName = "/path/to/file"
+	timeout  = 1 // How frequently to check for changes (seconds)
+)
+
+fp := NewFilePoller(timeout)
+
+// Add file to poller
+fp.Add(fileName)
+
+// Read from poller
+buf, modified, err := fp.Get(fileName)
+if err != nil {
+	// Error reading file
+}
+
+if modified {
+	// buf contains the lastest changes to the file
+}
+
+
 Contact 
 -------
 
