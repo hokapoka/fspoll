@@ -47,6 +47,8 @@ func(self *filePolledDetails) update() os.Error{
 		self.mu.Lock()
 		defer self.mu.Unlock()
 
+		time.Sleep(second)
+
 		f, err := os.Open(self.name, os.O_RDONLY, 0644)
 		if err != nil {
 			self.lastErr = err
@@ -55,10 +57,19 @@ func(self *filePolledDetails) update() os.Error{
 		defer f.Close()
 
 		var b bytes.Buffer
-		_, err = io.Copy(&b, f)
+		n, err := io.Copy(&b, f)
 		if err != nil {
 			self.lastErr = err
 			return err
+		}
+
+		if n == 0 { // sshfs & vim effects write
+			time.Sleep(second * 5)
+			n, err = io.Copy(&b, f)
+			if err != nil {
+				self.lastErr = err
+				return err
+			}
 		}
 
 		self.buf		= &b
