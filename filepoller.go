@@ -57,15 +57,17 @@ func(self *filePolledDetails) update() os.Error{
 		defer f.Close()
 
 		var b bytes.Buffer
-		n, err := io.Copy(&b, f)
+		_, err = io.Copy(&b, f)
 		if err != nil {
 			self.lastErr = err
 			return err
 		}
 
-		if n == 0 { // sshfs & vim effects write
+		if b.String() == "" { // sshfs & vim effects write
+			f2, err := os.Open(self.name, os.O_RDONLY, 0644)
+			defer f2.Close()
 			time.Sleep(second * 5)
-			n, err = io.Copy(&b, f)
+			_, err = io.Copy(&b, f2)
 			if err != nil {
 				self.lastErr = err
 				return err
