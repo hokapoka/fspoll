@@ -138,6 +138,10 @@ func(self *FilePoller) Get(name string) (*bytes.Buffer, bool, os.Error){
 		return nil, false, err
 	}
 	f := self.files[name]
-	return f.buf, f.modified, f.lastErr
+	modified = f.modified
+
+	f.modified = false
+
+	return f.buf, modified, f.lastErr
 }
 
