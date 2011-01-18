@@ -9,7 +9,7 @@ import (
 	"io"
 )
 
-const second 1e9
+const second = 1e9
 
 type filePolledDetails struct{
 	name string
@@ -74,10 +74,10 @@ func(self *filePolledDetails) update() os.Error{
 type FilePoller struct{
 	files map[string]*filePolledDetails
 	mu sync.RWMutex
-	timeout int
+	timeout int64
 }
 
-func NewFilePoller(timeout int) (*FilePoller) {
+func NewFilePoller(timeout int64) (*FilePoller) {
 
 	if timeout <= 0 {
 		timeout = 1 // 1e9 * 0 == 0
@@ -95,7 +95,7 @@ func NewFilePoller(timeout int) (*FilePoller) {
 func(self *FilePoller) start(){
 	for{
 		self.pollFiles()
-		time.Sleep(1e9 * self.timeout)
+		time.Sleep(second * self.timeout)
 	}
 }
 
@@ -138,7 +138,7 @@ func(self *FilePoller) Get(name string) (*bytes.Buffer, bool, os.Error){
 		return nil, false, err
 	}
 	f := self.files[name]
-	modified = f.modified
+	modified := f.modified
 
 	f.modified = false
 
