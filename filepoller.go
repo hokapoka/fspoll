@@ -8,6 +8,9 @@ import (
 	"bytes"
 	"io"
 )
+
+const second 1e9
+
 type filePolledDetails struct{
 	name string
 	modT int64
@@ -71,14 +74,19 @@ func(self *filePolledDetails) update() os.Error{
 type FilePoller struct{
 	files map[string]*filePolledDetails
 	mu sync.RWMutex
+	timeout int
 }
 
-func NewFilePoller() (*FilePoller) {
+func NewFilePoller(timeout int) (*FilePoller) {
+
+	if timeout <= 0 {
+		timeout = 1 // 1e9 * 0 == 0
+	}
+
 
 	p := &FilePoller{
 		files:map[string]*filePolledDetails{},
 	}
-
 	go p.start()
 
 	return p
@@ -87,7 +95,7 @@ func NewFilePoller() (*FilePoller) {
 func(self *FilePoller) start(){
 	for{
 		self.pollFiles()
-		time.Sleep(1e9 * 5)
+		time.Sleep(1e9 * self.timeout)
 	}
 }
 
