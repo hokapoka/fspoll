@@ -99,6 +99,7 @@ func NewFilePoller(timeout int64) (*FilePoller) {
 
 	p := &FilePoller{
 		files:map[string]*filePolledDetails{},
+		timeout:timeout,
 	}
 	go p.start()
 
